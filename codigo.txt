@@ -1,0 +1,61 @@
+Option Explicit
+
+Const PORT As String = "9515"
+
+Const url As String = "http://localhost:" & PORT & "/"
+
+Public Sub Teste()
+
+Dim body As String
+Dim rep As String
+Dim ObjResposta
+Dim auxObjResposta
+Dim auxUrl As String
+
+
+    body = " { ""desiredCapabilities"" : { ""caps"": { ""nativeEvents"" : false, ""browserName"": ""edge"", ""version"" : """", ""plataform"": ""ANY"" }  } } "
+    
+   rep = SEND_REQUEST(url & "session", body, "POST")
+   Set ObjResposta = JsonConverter.ParseJson(rep)
+   auxUrl = url & "session/" & ObjResposta("sessionId") & "/url"
+   body = "{""url"":""https://www.google.com.br""}"
+   rep = SEND_REQUEST(auxUrl, body, "POST")
+   
+   
+   
+    auxUrl = url & "session/" & ObjResposta("sessionId") & "/element"
+     body = "{""using"":""xpath"",""value"":""/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/textarea""}"
+     rep = SEND_REQUEST(auxUrl, body, "POST")
+     Set ObjResposta = JsonConverter.ParseJson(rep)
+    
+    
+    'body = "{""using"":""xpath"",""value"":""/html/body/div[1]/div[3]/form/div[1]/div[1]/div[4]/center/input[2]""}"
+    'auxUrl = url & "session/" & ObjResposta("sessionId") & "/element" & ObjResposta("value")("ELEMENT") & "/click"
+    'rep = SEND_REQUEST(auxUrl, body, "POST")
+    'Set ObjResposta = JsonConverter.ParseJson(rep)
+   
+   
+   
+   
+
+End Sub
+
+Public Function SEND_REQUEST(url As String, Optional body As String, Optional METHOD As String = "GET")
+
+    Dim HReq As Object
+    Dim resp As String
+    
+    Set HReq = CreateObject("WinHttp.WinhttpRequest.5.1")
+    With HReq
+    
+        .Open METHOD, url, False
+        .send body
+        resp = .responseText
+    
+    
+    End With
+    SEND_REQUEST = resp
+
+End Function
+
+
