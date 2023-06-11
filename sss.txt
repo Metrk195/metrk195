@@ -1,0 +1,30 @@
+Sub teste()
+
+    Dim xml As New MSXML2.XMLHTTP60
+    Dim url As String
+    
+    Dim htmlDoc As New MSHTML.HTMLDocument
+    
+    Dim h1 As MSHTML.IHTMLElement
+    Dim card  As MSHTML.IHTMLElementCollection
+    Dim classe As HTMLDocument
+    Dim tabelas As MSHTML.IHTMLElementCollection
+    
+    
+    
+    
+    url = "https://app.powerbi.com/view?r=eyJrIjoiZGFjY2ZmNzEtM2U1NS00MjhjLWIxYTktYWFmMDhjODQ1ZTM0IiwidCI6ImJmMTU3Mjk3LTAzMDktNDUzZS05YWE3LTg2OTc2NmJhYWJiOCIsImMiOjZ9"
+    xml.Open "GET", url, False
+    xml.send
+    
+    
+    Set tabelas = htmlDoc.getElementsByTagName("table")
+ 
+    
+    Debug.Print tabelas.Length
+    
+    
+   
+
+
+End Sub
